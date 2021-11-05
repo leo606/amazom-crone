@@ -21,6 +21,16 @@ async function getCategoryByName(name) {
   }
 }
 
+async function getCategoryById(id) {
+  try {
+    const db = await connection();
+    const category = await db.collection("categories").findOne(new ObjectId(id));
+    return category;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 async function createCategorie(name) {
   try {
     const db = await connection();
