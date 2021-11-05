@@ -1,0 +1,10 @@
+{
+  "configurations": [
+    {
+      "command": "yarn debug",
+      "name": "Run yarn debug",
+      "request": "launch",
+      "type": "node-terminal"
+    }
+  ]
+}
