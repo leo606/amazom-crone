@@ -4,6 +4,11 @@ const categories = require("../middlewares/categories");
 
 route.get("/", categories.getCategories);
 
-route.post("/", categories.isCategoryValid);
+route.post(
+  "/",
+  categories.isCategoryValid,
+  categories.postCategory,
+  categories.erroRes
+);
 
 module.exports = route;
