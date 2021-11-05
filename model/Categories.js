@@ -41,4 +41,4 @@ async function createCategorie(name) {
   }
 }
 
-module.exports = { getAll, getCategoryByName, createCategorie };
+module.exports = { getAll, getCategoryByName, getCategoryById, createCategorie };
