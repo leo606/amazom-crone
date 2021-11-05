@@ -1,9 +1,5 @@
 const Categories = require("../model/Categories");
 
-function erroRes(err, req, res, next) {
-  res.status(err.error.status).json({ message: err.error.message });
-}
-
 async function getCategories(req, res, next) {
   try {
     const categories = await Categories.getAll();
@@ -51,4 +47,4 @@ async function postCategory(req, res, next) {
   }
 }
 
-module.exports = { erroRes, getCategories, isCategoryValid, postCategory };
+module.exports = { getCategories, isCategoryValid, postCategory };
