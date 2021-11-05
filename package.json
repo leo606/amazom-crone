@@ -1,0 +1,16 @@
+{
+  "name": "amazom-crone",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongodb": "^4.1.4",
+    "nodemailer": "^6.7.0",
+    "nodemon": "^2.0.14"
+  },
+  "devDependencies": {
+    "eslint": "^8.1.0",
+    "eslint-config-trybe-backend": "^1.0.4"
+  }
+}
