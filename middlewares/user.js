@@ -7,7 +7,7 @@ const joiUserSchema = joi.object().keys({
   password: joi.string().min(6).max(16).required(),
 });
 
-function checkUser(req, res, next) {
+function valid(req, res, next) {
   const { user, email, password } = req.body;
   const valid = joiUserSchema.validate({ user, email, password });
 
@@ -20,6 +20,25 @@ function checkUser(req, res, next) {
   next();
 }
 
+async function exists(req, _res, next) {
+  const { user } = req.userValid;
+  try {
+    const filterUser = await User.getUserByUsername(user);
+    if (filterUser) {
+      return next({
+        error: {
+          status: 409,
+          code: "userAlredyExists",
+          message: "user already exists in the DB",
+        },
+      });
+    }
+    return next();
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 async function addUser(req, res, next) {
   const user = req.userValid;
   try {
@@ -30,4 +49,4 @@ async function addUser(req, res, next) {
   }
 }
 
-module.exports = { checkUser, addUser };
+module.exports = { valid, exists, addUser };

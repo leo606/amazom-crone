@@ -10,4 +10,14 @@ async function create(user) {
   }
 }
 
-module.exports = { create };
+async function getUserByUsername(user) {
+  try {
+    const db = await connection();
+    const findUser = await db.collection("users").findOne({user});
+    return findUser;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+module.exports = { create, getUserByUsername };

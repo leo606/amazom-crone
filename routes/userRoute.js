@@ -1,8 +1,10 @@
 const express = require("express");
-const { checkUser, addUser } = require("../middlewares/user");
+const { valid, exists, addUser } = require("../middlewares/user");
+const { erroRes } = require("../middlewares/error");
 
 const route = express.Router();
 
-route.post("/", checkUser, addUser);
+route.post("/", valid, exists, addUser);
+route.use(erroRes);
 
 module.exports = route;
