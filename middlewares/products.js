@@ -10,6 +10,7 @@ const joiProductSchema = joi.object().keys({
 function isValid(req, res, next) {
   const { name, price, color } = req.body;
   const valid = joiProductSchema.validate({ name, price, color });
+
   if (valid.error) {
     return next({
       error: { status: 406, code: "joiErro", message: valid.error.message },

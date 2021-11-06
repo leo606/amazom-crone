@@ -9,5 +9,6 @@ app.use(express.json());
 
 app.use("/category", catRoute);
 app.use("/product", prodRoute);
+app.use("/user", userRoute);
 
 app.listen(PORT, () => console.log("listening", PORT));
