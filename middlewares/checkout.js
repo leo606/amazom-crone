@@ -1,5 +1,6 @@
 const joi = require("joi");
 const Order = require("../model/Order");
+const User = require("../model/User");
 const { ObjectId } = require("mongodb");
 const nodemailer = require("nodemailer");
 
@@ -35,31 +36,46 @@ async function checkout(req, res, next) {
   const { user, products } = req.body;
   try {
     const insertOrder = await Order.insert({ user, products });
-
-    const transporter = nodemailer.createTransport({
-      host: "smtp.gmail.com",
-      port: "587",
-      secure: false,
-      auth: {
-        user: '',
-        pass: "",
-      },
-    });
-
-    const emailSent = await transporter.sendMail({
-      from: '"Fred Foo" <foo@example.com>',
-      to: "leonardoferreira@pm.me",
-      subject: "subject",
-      text: "text body 2222222",
-    });
-
-    console.log('emailSent ============');
-    console.log(emailSent);
     res.status(201).json(insertOrder);
-
+    next();
   } catch (e) {
     console.log(e);
   }
 }
 
-module.exports = { isValid, checkout };
+async function sendEmail(req, res, next) {
+  const { user, products } = req.body;
+
+  try {
+    const { email, firstName, lastName } = await User.getUserByUsername(user);
+
+    const output = `
+    <h1>Hello ${firstName} ${lastName} You have done a order</h1>
+    <h2>details:</h2>
+    <p>${products}</p>
+  `;
+
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
+      auth: {
+        user: "leofml665@gmail.com",
+        pass: '',
+      },
+    });
+
+    const emailSend = await transporter.sendMail({
+      from: "leofml665@gmail.com",
+      to: email,
+      subject: "Order Details",
+      text: "order details",
+      html: output,
+    });
+    console.log(emailSend);
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+module.exports = { isValid, checkout, sendEmail };

@@ -3,17 +3,29 @@ const User = require("../model/User");
 
 const joiUserSchema = joi.object().keys({
   user: joi.string().alphanum().required(),
+  firstName: joi.string().required(),
+  lastName: joi.string().required(),
   email: joi.string().email().required(),
   password: joi.string().min(6).max(16).required(),
 });
 
 function valid(req, res, next) {
-  const { user, email, password } = req.body;
-  const valid = joiUserSchema.validate({ user, email, password });
+  const { user, email, password, firstName, lastName } = req.body;
+  const valid = joiUserSchema.validate({
+    user,
+    email,
+    password,
+    firstName,
+    lastName,
+  });
 
   if (valid.error) {
     return next({
-      error: { code: "userNotValid", message: valid.error.message },
+      error: {
+        status: 402,
+        code: "userNotValid",
+        message: valid.error.message,
+      },
     });
   }
   req.userValid = valid.value;
